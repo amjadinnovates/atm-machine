@@ -8,6 +8,30 @@ const users = [
 ];
 // Main function
 async function main() {
+    let check = await inquirer.prompt([{
+            type: "string",
+            name: "truth",
+            message: "Are you already a user? type yes/no:",
+        }]);
+    if (check.truth === "no") {
+        console.log("Then please register first.");
+        users.unshift(await inquirer.prompt([{
+                type: "string",
+                name: "name",
+                message: "Enter your name:",
+            }, {
+                type: "number",
+                name: "pinCode",
+                message: "Enter your PIN code:",
+            }, {
+                type: "number",
+                name: "balance",
+                message: "Enter your amount to deposit in account:",
+            },]));
+    }
+    else {
+        console.log("you can make a transaction");
+    }
     const pinCodeInput = await inquirer.prompt([
         {
             type: "number",
@@ -27,9 +51,9 @@ async function main() {
             },
         ]);
         const requestedAmount = amountInput.amount;
-        console.log(`You have withdrawn $${requestedAmount}.`);
+        console.log(`You have withdrawn Rs${requestedAmount}.`);
         users[index].balance = users[index].balance - requestedAmount;
-        console.log(`your balance is ${users[index].balance}`);
+        console.log(`your balance is Rs${users[index].balance}`);
     }
     else {
         console.log(`User with pinCode ${enteredPinCode} not found`);
